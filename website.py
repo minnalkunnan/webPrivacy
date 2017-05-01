@@ -1,19 +1,15 @@
 #!flask/bin/python
 from flask import Flask, jsonify, abort, request, make_response, render_template
 
-app = Flask(__name__)
-
-@app.errorhandler(404)
-def not_found(error):
-    return make_response(jsonify({'error': 'Not found'}), 404)
+app = Flask(__name__, static_url_path = "/static", static_folder = "static")
 
 @app.route('/')
 @app.route('/index')
 def index():
-    user = {'nickname': 'minnal'}  # fake user
-    return render_template('index.html',
-                           title='Home',
-                           user=user)
+	print(request)
+	f = open('workfile', 'a')
+	f.write(str({"newHeader": str(request.headers)}))
+	return render_template('index.html', title='Home')
 
 if __name__ == '__main__':
     app.run(debug=True)
